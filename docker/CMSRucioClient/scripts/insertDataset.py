@@ -18,6 +18,9 @@ from rucio.common.exception import DataIdentifierAlreadyExists
 from rucio.common.exception import RucioException
 from rucio.common.exception import FileAlreadyExists
 
+from CMSRucio import CMSRucio
+
+
 DEFAULT_SCOPE = 'cms'
 
 DEBUG_FLAG = False
@@ -34,31 +37,31 @@ def das_go_client(query):
     return json.loads(output)
 
 
-class DatasetInjector(object):
+class DatasetInjector(CMSRucio):
     """
     General Class for injecting a cms dataset in rucio
     """
 
     def __init__(self, dataset, site, rse=None, scope=DEFAULT_SCOPE,
                  uuid=None, check=True, lifetime=None, dry_run=False):
+
+        super(DatasetInjector, self).__init__(account=None, auth_type=None, scope=scope, dry_run=dry_run)
+
         self.dataset = dataset
         self.site = site
         if rse is None:
             rse = site
         self.rse = rse
-        self.scope = scope
         self.uuid = uuid
         self.check = check
         self.lifetime = lifetime
-        self.dry_run = dry_run
 
         self.blocks = []
         self.url = ''
 
         self.getmetadata()
         self.get_global_url()
-        self.didc = DIDClient()
-        self.repc = ReplicaClient()
+        self.repc = self.rc  # TODO: Remove. Same thing, just for backwards compatibility
 
         self.gfal = Gfal2Context()
 
@@ -118,7 +121,7 @@ class DatasetInjector(object):
         print("Registering...")
         self.register_container()
         for block in self.blocks:
-            self.register_dataset(block['name'])
+            self.register_dataset(block['name'], dataset=self.dataset, lifetime=self.lifetime)
 
             self.register_replicas(block['files'])
             self.attach_files([filemd['name'] for filemd in block['files']], block['name'])
@@ -142,27 +145,27 @@ class DatasetInjector(object):
         except DataIdentifierAlreadyExists:
             print(" Container %s already exists" % self.dataset)
 
-    def register_dataset(self, block):
-        """
-        Create the dataset and attach them to teh container
-        """
-
-        if self.dry_run:
-            print(' Dry run only. Not creating dataset.')
-            return
-
-        try:
-            self.didc.add_dataset(scope=self.scope, name=block, lifetime=self.lifetime)
-            print("registered dataset %s" % block)
-        except DataIdentifierAlreadyExists:
-            pass
-
-        try:
-            self.didc.attach_dids(scope=self.scope, name=self.dataset,
-                                  dids=[{'scope': self.scope, 'name': block}])
-            print("attaching dataset %s to container %s" % (block, self.dataset))
-        except RucioException:
-            pass
+    # def register_dataset(self, block):
+    #     """
+    #     Create the dataset and attach them to teh container
+    #     """
+    #
+    #     if self.dry_run:
+    #         print(' Dry run only. Not creating dataset.')
+    #         return
+    #
+    #     try:
+    #         self.didc.add_dataset(scope=self.scope, name=block, lifetime=self.lifetime)
+    #         print("registered dataset %s" % block)
+    #     except DataIdentifierAlreadyExists:
+    #         pass
+    #
+    #     try:
+    #         self.didc.attach_dids(scope=self.scope, name=self.dataset,
+    #                               dids=[{'scope': self.scope, 'name': block}])
+    #         print("attaching dataset %s to container %s" % (block, self.dataset))
+    #     except RucioException:
+    #         pass
 
     def attach_file(self, lfn, block):
         """

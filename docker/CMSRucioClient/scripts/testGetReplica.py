@@ -30,3 +30,16 @@ if __name__ == '__main__':
     print("Result from list of datasets:")
     pprint(result)
 
+    result = cms_rucio.dataset_summary(scope='user.ewv',
+                                       dataset='/SingleMuon/Run2017A-PromptReco-v2/MINIAOD')
+    print("Result from one dataset:")
+    del result['files']
+
+    pprint(result)
+
+    result = cms_rucio.dataset_summary(scope='cms',
+                                       dataset='/Neutrino_E-10_gun/RunIISummer17PrePremix-MCv2_correctPU_94X_mc2017_realistic_v9-v1/GEN-SIM-DIGI-RAW')
+
+    del result['files']
+
+    pprint(result)

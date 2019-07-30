@@ -12,7 +12,7 @@ chmod 400 /tmp/key.pem
 voms-proxy-init2 --debug -rfc -valid 96:00 -cert /tmp/cert.pem -key /tmp/key.pem -out /tmp/x509up -voms cms -rfc -timeout 5
 
 cd /root/CMSRucio
-git pull origin master
+git pull origin repl_debug
 export RUCIO_ACCOUNT=root
 
 echo Using config file in $RUCIO_HOME

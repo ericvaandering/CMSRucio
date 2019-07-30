@@ -299,6 +299,7 @@ class CMSRucioDatasetReplica(object):
                 logging.dry("Adding rule for dataset %s at rse %s.",
                             self.dataset, self.rse)
             else:
+                logging.summary('Adding rule %s %s %s' % (self.scope, self.dataset, rse_exp))
                 self.rcli.add_replication_rule(
                     dids=[{'scope': self.scope, 'name': self.dataset}],
                     copies=1,

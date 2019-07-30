@@ -59,5 +59,7 @@ WORKDIR /root
 RUN git clone https://github.com/rucio/rucio.git
 RUN git clone https://github.com/dmwm/CMSRucio.git
 
+RUN cd CMSRucio; git checkout repl_debug
+
 ENV X509_USER_PROXY=/tmp/x509up
 ENTRYPOINT ["/bin/bash", "-c", "sleep infinity"]

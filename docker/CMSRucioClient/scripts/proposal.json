@@ -1,36 +1,101 @@
-{
- "site": "T1_UK_RAL",
- "storage_unit": "Buffer",
- "type": "DISK",
- "protocols": [
-   {
-     "protocol": "SRMv2",
-     "comment": "name SRMv2 used for historic reason, it's really gsiftp",
-     "access": "read-write",
-     "tfc_rules": {
-         "chain": null,
-         "lfn-to-pfn-s": [
-            {
-               "lfn": ".*/LoadTest07_(.*)_.*_.*",
-               "pfn": "/local/PhEDEx_LoadTest07/LoadTest07_$1",
-               "comment": "keep load test ouside storage system"
-            },
-            {
-               "lfn": "/+store/(.*)",
-               "pfn": "gsiftp://gridftp.echo.stfc.ac.uk:2811/cms:/store/$1"
-            }
-         ],
-         "comment": "historic, imported from PhEDEx"
-     }
-   },
-   {
-     "protocol": "XRootD",
-     "access": "read-only",
-     "tfc_prefix": "root://xrootd.echo.stfc.ac.uk/",
-     "comment": "i assume Rucio is able to handle default ports, or?"
-   }
- ],
- "comment": "FTS will have a default",
- "fts": "https://fts3.cern.ch:8446"
-}
+[
+  {
+    "site": "T1_US_FNAL",
+    "volume": "disk-dCache+EOS",
+    "protocols": [
+      {
+        "name": "xrd",
+        "access": "local-ro",
+        "tfc_prefix": "root://cmsxrootd-site.fnal.gov/",
+        "comment": "for local data access"
+      },
 
+      {
+        "name": "fallbackxrd",
+        "access": "global-ro",
+        "tfc_prefix": "root://cmsxrootd.fnal.gov/",
+        "comment": "fallback xrootd reading"
+      },
+
+      {
+        "name": "XRootD",
+        "access": "global-rw",
+        "tfc_rules": [
+          {
+            "lfn": "/+store/temp/user/(.*)",
+            "pfn": "root://cmseos.fnal.gov//eos/uscms/store/temp/user/$1"
+          },
+          {
+            "lfn": "/+store/(.*)",
+            "pfn": "root://cmsdcadisk.fnal.gov//dcache/uscmsdisk/store/$1"
+          }
+        ],
+        "comment": "xrootd data transfer and stage-out"
+      },
+
+      {
+        "name": "direct",
+        "access": "virtual",
+        "tfc_rules": [
+          {
+            "lfn": ".*/LoadTest07_LoadTest07_FNAL_(.*)_.*_.*",
+            "pfn": "/dcache/uscmsdisk/store/PhEDEx_LoadTest07/LoadTest07_Prod_FNAL_Disk/LoadTest07_FNAL_$1"
+          },
+          {
+            "lfn": ".*/LoadTest07_FNAL_(.*)_.*_.*",
+            "pfn": "/dcache/uscmsdisk/store/PhEDEx_LoadTest07/LoadTest07_Prod_FNAL_Disk/LoadTest07_FNAL_$1"
+          },
+          {
+            "lfn": "(/store/PhEDEx_LoadTest_SingleSource/.*)\\.LTgenerated.T1_US_FNAL.*",
+            "pfn": "/dcache/uscmsdisk$1"
+          }
+        ]
+      },
+
+      {
+        "name": "SRMv2",
+        "access": "global-rw",
+        "tfc_rules": [
+          {
+            "lfn": "/+(.*)",
+            "pfn": "srm://cmssrmdisk.fnal.gov:8443/srm/managerv2\\?SFN=/$1",
+            "chain": "direct"
+          }
+        ]
+      }
+    ],
+    "type": "DISK",
+    "RSE_name": "T1_US_FNAL_Disk",
+    "fts": "https://cmsfts3.fnal.gov:8443"
+  },
+
+
+
+  {
+    "site": "T1_US_FNAL",
+    "volume": "tape-dCache",
+    "protocols": [
+      {
+        "name": "SRMv2",
+        "access": "global-rw",
+        "tfc_rules": [
+          {
+            "lfn": "^/+store/(.*)",
+            "pfn": "srm://cmssrm.fnal.gov:8443/srm/managerv2?SFN=/11/store/$1"
+          },
+          {
+            "lfn": "^/+MTCC/(.*)",
+            "pfn": "srm://cmssrm.fnal.gov:8443/srm/managerv2?SFN=/7/PHEDEX2/MTCC/$1"
+          },
+          {
+            "lfn": "^/+h2_testbeam/(.*)",
+            "pfn": "srm://cmssrm.fnal.gov:8443/srm/managerv2?SFN=/7/PHEDEX2/h2_testbeam/$1"
+          }
+        ]
+      }
+    ],
+    "type": "TAPE",
+    "RSE_name": "T1_US_FNAL_Tape",
+    "fts": "https://cmsfts3.fnal.gov:8443"
+  }
+]

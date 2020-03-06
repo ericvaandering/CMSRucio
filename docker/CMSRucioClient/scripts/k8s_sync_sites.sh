@@ -29,16 +29,11 @@ echo "Syncing RSEs"
 
 # OR ./setRucioFromGitlab with some new parameters
 
-./cmslinks.py --phedex_link --overwrite --disable
-
-
 echo "Creating sync accounts"
 ./syncaccounts.py --identity "/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=cmsrucio/CN=430796/CN=Robot: CMS Rucio Data Transfer" --type x509
 
-
-echo "Syncing quotas"
+echo "Setting site quotas"
 ./setSiteQuotas
-
 
 echo "Creating links"
 ./cmslinks.py --phedex_link --overwrite --disable

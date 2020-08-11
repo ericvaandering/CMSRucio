@@ -7,10 +7,14 @@ import random
 
 rucio = Client()
 
-tape_rses = rucio.list_rses('rse_type=TAPE&cms_type!=test')
+tape_rses = rucio.list_rses('rse_type=TAPE\cms_type=test')
 rses_with_weights = []
 
 def weighted_choice(choices):
+
+    # from https://stackoverflow.com/questions/3679694/a-weighted-version-of-random-choice
+    # Python 3.6 includes something like this in the random library itself
+
    total = sum(w for c, w in choices)
    r = random.uniform(0, total)
    upto = 0

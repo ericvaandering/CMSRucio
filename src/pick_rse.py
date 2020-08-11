@@ -22,4 +22,4 @@ for rse in tape_rses:
     rses_with_weights.append(((rse['rse'], requires_approval), quota))
 
 
-pprint(rses_with_weights)
+pprint.pprint(rses_with_weights)

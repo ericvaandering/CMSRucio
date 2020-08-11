@@ -10,5 +10,6 @@ rucio = Client()
 tape_rses = rucio.list_rses('rse_type=TAPE')
 
 for rse in tape_rses:
+    pprint(rse)
     attrs = rucio.list_rse_attributes(rse)
     pprint(attrs)

@@ -15,13 +15,13 @@ SSL_CONTEXT.verify_mode = ssl.CERT_NONE
 
 TO_STRIP = ['_Disk', '_Tape', '_Temp', '_Test', '_Disk_Test', '_Tape_Test']
 
-CRIC_GROUP_API = 'https://cms-cric.cern.ch/api/accounts/group/query/?json'
+CRIC_GROUP_API = 'https://cms-cric-preprod.cern.ch/api/accounts/group/query/?json'
 
 # FIXME: Make this be read from a file
 role_group_mapping = {'CMS_higgs_DataManager': {'name': 'higgs', 'email': ''},
                       'CMS_heavy-ions_DataManager': {'name': 'heavy_ions', 'email': ''},
                       'CMS_top_DataManager': {'name': 'top', 'email': ''},
-                      # 'CMS_ReqMgr_DataManager': 'reqmgr',
+                      'CMS_BE_IIHE_SiteExecutive': {'name': 'be_iihe_local', 'email': ''},
                       }
 
 

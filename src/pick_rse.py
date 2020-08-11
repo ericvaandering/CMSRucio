@@ -19,7 +19,7 @@ for rse in tape_rses:
 
     quota = attrs.get('ddm_quota', 10e12)
     requires_approval = attrs.get('requires_approval', False)
-    rses_with_weights.append(((rse['rse'], attrs['requires_approval']), quota))
+    rses_with_weights.append(((rse['rse'], requires_approval), quota))
 
 
 pprint(rses_with_weights)

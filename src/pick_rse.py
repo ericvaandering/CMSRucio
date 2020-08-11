@@ -35,8 +35,6 @@ for rse in tape_rses:
     # pprint.pprint(attrs)
 
     quota = attrs.get('ddm_quota', 1e12)
-    if 'CERN' in rse['rse']:
-        quota = 20e12
     requires_approval = attrs.get('requires_approval', False)
     rses_with_weights.append(((rse['rse'], requires_approval), quota))
 

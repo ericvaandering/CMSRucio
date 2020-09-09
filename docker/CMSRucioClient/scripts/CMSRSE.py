@@ -8,7 +8,7 @@ import pprint
 import re
 
 from rucio.client.client import Client
-from rucio.common.exception import RSEProtocolNotSupported, RSENotFound
+from rucio.common.exception import RSEProtocolNotSupported, RSENotFound, Duplicate
 
 APPROVAL_REQUIRED = ['T1_DE_KIT_Tape', 'T1_ES_PIC_Tape', 'T1_RU_JINR_Tape', 'T1_UK_RAL_Tape', 'T1_US_FNAL_Tape']
 DOMAINS_BY_TYPE = {
@@ -280,9 +280,12 @@ class CMSRSE:
                         except RSEProtocolNotSupported:
                             logging.debug("Cannot remove protocol %s from %s", new_proto['scheme'], self.rse_name)
 
-            if new_proto['scheme'] in ['srm', 'srmv2', 'gsiftp']:
+            if new_proto['scheme'] in ['srm', 'srmv2', 'gsiftp', 'root']:
                 logging.info('Adding %s to %s', new_proto['scheme'], self.rse_name)
-                self.rcli.add_protocol(rse=self.rse_name, params=new_proto)
+                try:
+                    self.rcli.add_protocol(rse=self.rse_name, params=new_proto)
+                except Duplicate:
+                    logging.warning('Protocol %s on %s already existed.', new_proto['scheme'], self.rse_name)
 
         return
 

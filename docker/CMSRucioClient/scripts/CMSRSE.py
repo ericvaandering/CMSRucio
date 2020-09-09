@@ -14,14 +14,16 @@ APPROVAL_REQUIRED = ['T1_DE_KIT_Tape', 'T1_ES_PIC_Tape', 'T1_RU_JINR_Tape', 'T1_
 DOMAINS_BY_TYPE = {
     'real': {'wan': {'read': 1, 'write': 0, 'third_party_copy': 1, 'delete': 0},
              'lan': {'read': 0, 'write': 0, 'delete': 0}},
+    'ro': {'wan': {'read': 1, 'write': 0, 'third_party_copy': 1, 'delete': 0},
+             'lan': {'read': 0, 'write': 0, 'delete': 0}},
     'test': {'wan': {'read': 1, 'write': 1, 'third_party_copy': 1, 'delete': 1},
              'lan': {'read': 0, 'write': 0, 'delete': 0}},
     'temp': {'wan': {'read': 1, 'write': 1, 'third_party_copy': 1, 'delete': 1},
              'lan': {'read': 0, 'write': 0, 'delete': 0}},
 }
-RUCIO_PROTOS = ['SRMv2']
-IMPL_MAP = {'SRMv2': 'rucio.rse.protocols.gfalv2.Default'}
-DEFAULT_PORTS = {'gsiftp': 2811}
+RUCIO_PROTOS = ['SRMv2', 'XRootD']
+IMPL_MAP = {'SRMv2': 'rucio.rse.protocols.gfalv2.Default', 'XRootD':'rucio.rse.protocols.gfal.Default'}
+DEFAULT_PORTS = {'gsiftp': 2811, 'root': 1094}
 
 
 class CMSRSE:
@@ -146,13 +148,19 @@ class CMSRSE:
         """
 
         protocol_name = proto_json['protocol']
+        access = proto_json['access']
         algorithm = None
         proto = {}
 
         if protocol_name not in RUCIO_PROTOS:
             return algorithm, proto
+        if access not in ['global-rw', 'global-ro']:
+            return algorithm, proto
 
         domains = DOMAINS_BY_TYPE[self.cms_type]
+        # Downgrade the protocol if acces is not set to global-rw
+        if access == 'global-ro':
+            domains = DOMAINS_BY_TYPE['ro']
 
         if proto_json.get('prefix', None):
             """
@@ -246,9 +254,7 @@ class CMSRSE:
 
     def _set_protocols(self):
         try:
-            current_protocols = self.rcli.get_protocols(
-                rse=self.rse_name
-            )
+            current_protocols = self.rcli.get_protocols(    rse=self.rse_name        )
         except (RSEProtocolNotSupported, RSENotFound):
             current_protocols = []
 

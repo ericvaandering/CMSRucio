@@ -15,14 +15,14 @@ DOMAINS_BY_TYPE = {
     'real': {'wan': {'read': 1, 'write': 0, 'third_party_copy': 1, 'delete': 0},
              'lan': {'read': 0, 'write': 0, 'delete': 0}},
     'ro': {'wan': {'read': 1, 'write': 0, 'third_party_copy': 1, 'delete': 0},
-             'lan': {'read': 0, 'write': 0, 'delete': 0}},
+           'lan': {'read': 0, 'write': 0, 'delete': 0}},
     'test': {'wan': {'read': 1, 'write': 1, 'third_party_copy': 1, 'delete': 1},
              'lan': {'read': 0, 'write': 0, 'delete': 0}},
     'temp': {'wan': {'read': 1, 'write': 1, 'third_party_copy': 1, 'delete': 1},
              'lan': {'read': 0, 'write': 0, 'delete': 0}},
 }
 RUCIO_PROTOS = ['SRMv2', 'XRootD']
-IMPL_MAP = {'SRMv2': 'rucio.rse.protocols.gfalv2.Default', 'XRootD':'rucio.rse.protocols.gfal.Default'}
+IMPL_MAP = {'SRMv2': 'rucio.rse.protocols.gfalv2.Default', 'XRootD': 'rucio.rse.protocols.gfal.Default'}
 DEFAULT_PORTS = {'gsiftp': 2811, 'root': 1094}
 
 
@@ -178,15 +178,25 @@ class CMSRSE:
                 port = prefix_match.group(3)
                 extended_attributes = {'web_service_path': prefix_match.group(4)}
                 prefix = prefix_match.group(5)
-            except AttributeError:  # Can be missing the port number
-                prefix_regex = re.compile(r'(\w+)://([a-zA-Z0-9\-\.]+)/(.*)')
-                prefix_match = prefix_regex.match(proto_json['prefix'])
+            except AttributeError:  # Without service path
+                try:
+                    prefix_regex = re.compile(r'(\w+)://([a-zA-Z0-9\-\.]+):(\d+)(/.*)')
+                    prefix_match = prefix_regex.match(proto_json['prefix'])
 
-                scheme = prefix_match.group(1)
-                hostname = prefix_match.group(2)
-                extended_attributes = None
-                prefix = '/' + prefix_match.group(3)
-                port = DEFAULT_PORTS[scheme]
+                    scheme = prefix_match.group(1)
+                    hostname = prefix_match.group(2)
+                    extended_attributes = None
+                    port = prefix_match.group(3)
+                    prefix = prefix_match.group(4)
+                except AttributeError:  # Can be missing the port number
+                    prefix_regex = re.compile(r'(\w+)://([a-zA-Z0-9\-\.]+)(/.*)')
+                    prefix_match = prefix_regex.match(proto_json['prefix'])
+
+                    scheme = prefix_match.group(1)
+                    hostname = prefix_match.group(2)
+                    extended_attributes = None
+                    prefix = prefix_match.group(3)
+                    port = DEFAULT_PORTS[scheme]
 
             proto = {
                 'scheme': scheme,
@@ -254,7 +264,7 @@ class CMSRSE:
 
     def _set_protocols(self):
         try:
-            current_protocols = self.rcli.get_protocols(    rse=self.rse_name        )
+            current_protocols = self.rcli.get_protocols(rse=self.rse_name)
         except (RSEProtocolNotSupported, RSENotFound):
             current_protocols = []
 

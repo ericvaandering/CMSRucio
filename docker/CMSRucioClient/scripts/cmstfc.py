@@ -7,6 +7,7 @@ LFN-to-path algorithms for TFC
 from __future__ import print_function
 
 import re
+import urlparse
 
 REGISTER = True
 
@@ -44,11 +45,21 @@ def cmstfc(scope, name, rse, rse_attrs, proto_attrs):
             proto_pfn += proto_attrs['prefix']
 
             proto_less = pfn.replace(proto_pfn, "")
-            return re.sub('/+', '/', proto_less)  # Remove unnecessary double slashes
+            if re.match('\w+://', proto_less):
+                parsed = list(urlparse.urlparse(proto_less))
+                parsed = [re.sub('/+', '/', p) for p in parsed]
+                return urlparse.urlunparse(parsed)
+            else:
+                return re.sub('/+', '/', proto_less)  # Remove unnecessary double slashes
         else:
-            path = '/' + name
-            path = re.sub('/+', '/', path)
-            return path
+            if re.match('\w+://', name):
+                parsed = list(urlparse.urlparse(name))
+                parsed = [re.sub('/+', '/', p) for p in parsed]
+                return urlparse.urlunparse(parsed)
+            else:
+                path = '/' + name
+                path = re.sub('/+', '/', path)
+                return path
     except TypeError:
         raise TypeError('Cannot determine PFN for LFN %s:%s at %s with proto %s'
                         % scope, name, rse, proto_attrs)

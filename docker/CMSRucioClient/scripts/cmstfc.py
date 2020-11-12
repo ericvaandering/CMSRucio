@@ -26,6 +26,9 @@ def cmstfc(scope, name, rse, rse_attrs, proto_attrs):
 
     # Prevents unused argument warnings in pylint
     del rse_attrs
+    import traceback
+    for line in traceback.format_stack():
+        print(line.strip())
 
     # Getting the TFC
     try:

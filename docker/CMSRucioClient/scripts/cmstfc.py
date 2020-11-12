@@ -48,14 +48,18 @@ def cmstfc(scope, name, rse, rse_attrs, proto_attrs):
             if re.match('\w+://', proto_less):
                 parsed = list(urlparse.urlparse(proto_less))
                 parsed = [re.sub('/+', '/', p) for p in parsed]
-                return urlparse.urlunparse(parsed)
+                pfn = urlparse.urlunparse(parsed)
+                print('Proto path %s' % pfn)
+                return pfn
             else:
                 return re.sub('/+', '/', proto_less)  # Remove unnecessary double slashes
         else:
             if re.match('\w+://', name):
                 parsed = list(urlparse.urlparse(name))
                 parsed = [re.sub('/+', '/', p) for p in parsed]
-                return urlparse.urlunparse(parsed)
+                pfn = urlparse.urlunparse(parsed)
+                print('Path path %s' % pfn)
+                return pfn
             else:
                 path = '/' + name
                 path = re.sub('/+', '/', path)

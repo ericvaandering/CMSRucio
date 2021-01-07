@@ -3,6 +3,7 @@
 """
 Class definition for a CMS RSE. And script for updating RSE
 """
+import copy
 import logging
 import pprint
 import re
@@ -22,7 +23,7 @@ DOMAINS_BY_TYPE = {
              'lan': {'read': 0, 'write': 0, 'delete': 0}},
 }
 RUCIO_PROTOS = ['SRMv2', 'XRootD']
-PROTO_WEIGHT = {'XRootD': 2}
+PROTO_WEIGHT = {'XRootD': 2, 'SRMv2': 1}
 IMPL_MAP = {'SRMv2': 'rucio.rse.protocols.gfalv2.Default',
             'XRootD': 'rucio.rse.protocols.gfal.Default'}
 DEFAULT_PORTS = {'gsiftp': 2811, 'root': 1094}
@@ -151,12 +152,12 @@ class CMSRSE:
         if protocol_name not in RUCIO_PROTOS:
             return algorithm, proto
 
-        domains = DOMAINS_BY_TYPE[self.cms_type]
+        domains = copy.deepcopy(DOMAINS_BY_TYPE[self.cms_type])
 
         try:
             for method, weight in domains['wan'].items():
-                if weight and self.cms_type in PROTO_WEIGHT:
-                    domains['wan'][method] = PROTO_WEIGHT[self.cms_type]
+                if weight and protocol_name in PROTO_WEIGHT:
+                    domains['wan'][method] = PROTO_WEIGHT[protocol_name]
         except KeyError:
             pass  # We're trying to modify an unknown protocol somehow
 
@@ -282,10 +283,8 @@ class CMSRSE:
         except (RSEProtocolNotSupported, RSENotFound):
             current_protocols = []
 
-        protocol_unchanged = False
-
         for new_proto in self.protocols:
-
+            protocol_unchanged = False
             for existing_proto in current_protocols:
                 if existing_proto['scheme'] == new_proto['scheme']:
                     if new_proto == existing_proto:
@@ -298,7 +297,7 @@ class CMSRSE:
                         except RSEProtocolNotSupported:
                             logging.debug("Cannot remove protocol %s from %s", new_proto['scheme'], self.rse_name)
 
-            if new_proto['scheme'] in ['srm', 'srmv2', 'gsiftp'] and not protocol_unchanged:
+            if new_proto['scheme'] in ['srm', 'srmv2', 'gsiftp', 'root'] and not protocol_unchanged:
                 logging.info('Adding %s to %s', new_proto['scheme'], self.rse_name)
                 self.rcli.add_protocol(rse=self.rse_name, params=new_proto)
 

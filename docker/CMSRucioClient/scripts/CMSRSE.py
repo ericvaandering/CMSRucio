@@ -21,9 +21,11 @@ DOMAINS_BY_TYPE = {
     'temp': {'wan': {'read': 1, 'write': 1, 'third_party_copy': 1, 'delete': 1},
              'lan': {'read': 0, 'write': 0, 'delete': 0}},
 }
-RUCIO_PROTOS = ['SRMv2']
-IMPL_MAP = {'SRMv2': 'rucio.rse.protocols.gfalv2.Default'}
-DEFAULT_PORTS = {'gsiftp': 2811}
+RUCIO_PROTOS = ['SRMv2', 'XRootD']
+PROTO_WEIGHT = {'XRootD': 2}
+IMPL_MAP = {'SRMv2': 'rucio.rse.protocols.gfalv2.Default',
+            'XRootD': 'rucio.rse.protocols.gfal.Default'}
+DEFAULT_PORTS = {'gsiftp': 2811, 'root': 1094}
 
 
 class CMSRSE:
@@ -150,6 +152,13 @@ class CMSRSE:
             return algorithm, proto
 
         domains = DOMAINS_BY_TYPE[self.cms_type]
+
+        try:
+            for method, weight in domains['wan'].items():
+                if weight and self.cms_type in PROTO_WEIGHT:
+                    domains['wan'][method] = PROTO_WEIGHT[self.cms_type]
+        except KeyError:
+            pass  # We're trying to modify an unknown protocol somehow
 
         if proto_json.get('prefix', None):
             """

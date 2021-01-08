@@ -36,6 +36,8 @@ def das_go_client(query, dasgoclient=DEFAULT_DASGOCLIENT, debug=DEBUG_FLAG):
     return json.loads(output)
 
 BLOCK = "/StreamExpress/Run2018A-PromptCalibProdSiStripGains-Express-v1/ALCAPROMPT#50d78a18-38ef-4cd4-8721-a617c441aa5b"
+RSE = 'T2_CH_CERN'
+
 
 def files_in_block(block=BLOCK):
     result = das_go_client(query='file block=%s' % block)
@@ -43,6 +45,16 @@ def files_in_block(block=BLOCK):
     for record in result:
         files.append(record['file'][0]['name'])
     return files
+
+def dbs_file_info(filename):
+    result = das_go_client(query='file file=%s' % filename)
+
+    bytes = result[0]['file'][0]['size']
+    adler32 = result[0]['file'][0]['adler32']
+
+    return bytes, adler32
+
+
 
 def files_in_rucio_ds(block=BLOCK):
     files = []
@@ -67,4 +79,5 @@ if __name__ == '__main__':
     missing_files = set(true_files) - set(rucio_files)
 
     for m_file in missing_files:
-        print('Will add file %s' % m_file)
+        bytes, adler32 = dbs_file_info(filename=m_file)
+        print('Will add file %s with %s bytses and %s' % (m_file, bytes, adler32))

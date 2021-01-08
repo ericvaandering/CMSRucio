@@ -37,10 +37,14 @@ def das_go_client(query, dasgoclient=DEFAULT_DASGOCLIENT, debug=DEBUG_FLAG):
 
 
 INCOMPLETE_BLOCKS = [
-    ("/StreamExpress/Run2018A-PromptCalibProdSiStripGains-Express-v1/ALCAPROMPT#50d78a18-38ef-4cd4-8721-a617c441aa5b",
-     'T2_CH_CERN'),
-    ("/DoubleMuonLowMass/Run2017F-09Aug2019_UL2017-v1/AOD#d1b69b4f-b10c-446f-b39a-d91a4bc5afa1 ",
-     'T1_US_FNAL_Disk'),
+    (
+    "/TTToSemiLeptonic_TuneCP5_erdON_13TeV-powheg-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1/AODSIM" +
+    "#fa0c5e22-537a-4b7a-866a-17fa34cbdef9",
+    'T1_IT_CNAF_Disk'),
+    (
+    "/TTToSemiLeptonic_TuneCP5_erdON_13TeV-powheg-pythia8/RunIIFall17DRPremix-PU2017_94X_mc2017_realistic_v11-v1/AODSIM" +
+    "#fa0c5e22-537a-4b7a-866a-17fa34cbdef9",
+    'T1_RU_JINR_Disk'),
 ]
 
 
@@ -86,7 +90,7 @@ if __name__ == '__main__':
 
         missing_files = set(true_files) - set(rucio_files)
 
-        for m_file in missing_files:
+        for m_file in true_files:
             n_bytes, adler32 = dbs_file_info(filename=m_file)
             result = client.add_replica(rse=rse, scope='cms', name=m_file, bytes=n_bytes, adler32=adler32)
             print('Added file (%s) %s with %s bytses and %s' % (result, m_file, n_bytes, adler32))

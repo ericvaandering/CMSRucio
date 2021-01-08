@@ -38,7 +38,14 @@ def das_go_client(query, dasgoclient=DEFAULT_DASGOCLIENT, debug=DEBUG_FLAG):
 
 INCOMPLETE_BLOCKS = [
     ("/StreamExpress/Run2018A-PromptCalibProdSiStripGains-Express-v1/ALCAPROMPT#50d78a18-38ef-4cd4-8721-a617c441aa5b",
-     'T2_CH_CERN')
+     'T2_CH_CERN'),
+    ("/EGamma/Run2018A-LogError-PromptReco-v1/RAW-RECO#c8fd512a-b3a0-4947-bb53-35b8bad96a9b",
+     'T1_FR_CCIN2P3_Tape'),
+    ("/DoubleMuonLowMass/Run2017F-09Aug2019_UL2017-v1/AOD#618cec31-4bbb-413a-8174-005e9deb7536",
+     'T1_ES_PIC_Disk'),
+    ("/SingleNeutrino/RunIISummer19UL16RECOAPV-FlatPU0to75_106X_mcRun2_asymptotic_preVFP_v8_ext2-v2/AODSIM" +
+     "#63fea451-5a5c-4fbf-8c8b-c0e476716355",
+     'T1_ES_PIC_Disk'),
 ]
 
 
@@ -89,4 +96,3 @@ if __name__ == '__main__':
             result = client.add_replica(rse=rse, scope='cms', name=m_file, bytes=n_bytes, adler32=adler32)
             print('Added file (%s) %s with %s bytses and %s' % (result, m_file, n_bytes, adler32))
             result = client.attach_dids(scope='cms', name=block, dids=[{'scope': 'cms', 'name': m_file}])
-           

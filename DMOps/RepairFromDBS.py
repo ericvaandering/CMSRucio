@@ -85,4 +85,5 @@ if __name__ == '__main__':
 
         for m_file in missing_files:
             n_bytes, adler32 = dbs_file_info(filename=m_file)
-            print('Will add file %s with %s bytses and %s' % (m_file, n_bytes, adler32))
+            result = client.add_replica(rse=rse, scope='cms', name=m_file, bytes=n_bytes, adler32=adler32)
+            print('Added file (%s) %s with %s bytses and %s' % (result, m_file, n_bytes, adler32))

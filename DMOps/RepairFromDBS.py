@@ -4,6 +4,8 @@
 import json
 import pdb
 
+from rucio.client import Client
+
 from subprocess import PIPE, Popen
 # import requests
 # from requests.exceptions import ReadTimeout
@@ -19,6 +21,9 @@ DEFAULT_DASGOCLIENT = '/cvmfs/cms.cern.ch/common/dasgoclient'
 
 
 _ = pdb.__name__
+
+client = Client()
+
 
 def das_go_client(query, dasgoclient=DEFAULT_DASGOCLIENT, debug=DEBUG_FLAG):
     """
@@ -39,7 +44,27 @@ def files_in_block(block=BLOCK):
         files.append(record['file'][0]['name'])
     return files
 
+def files_in_rucio_ds(block=BLOCK):
+    files = []
+    for record in client.list_content(scope='cms', name=block):
+        files.append(record['name'])
 
-files = files_in_block(block=BLOCK)
-print(files)
 
+
+
+if __name__ == '__main__':
+    """
+    Sync site data manager roles to RSE attributes
+    """
+
+
+
+    true_files = files_in_block(block=BLOCK)
+    rucio_files =files_in_rucio_ds(block=BLOCK)
+
+    print('%s files in DBS vs %s files in Rucio' % (len(true_files), len(rucio_files)))
+
+    missing_files = set(true_files) - set(rucio_files)
+
+    for m_file in missing_files:
+        print('Will add file %s' % m_file)

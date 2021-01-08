@@ -41,6 +41,7 @@ INCOMPLETE_BLOCKS = [
      'T2_CH_CERN')
 ]
 
+
 # BLOCK = "/StreamExpress/Run2018A-PromptCalibProdSiStripGains-Express-v1/ALCAPROMPT#50d78a18-38ef-4cd4-8721-a617c441aa5b"
 # RSE = 'T2_CH_CERN'
 
@@ -87,3 +88,5 @@ if __name__ == '__main__':
             n_bytes, adler32 = dbs_file_info(filename=m_file)
             result = client.add_replica(rse=rse, scope='cms', name=m_file, bytes=n_bytes, adler32=adler32)
             print('Added file (%s) %s with %s bytses and %s' % (result, m_file, n_bytes, adler32))
+            result = client.attach_dids(scope='cms', name=block, dids=[{'scope': 'cms', 'name': m_file}])
+           

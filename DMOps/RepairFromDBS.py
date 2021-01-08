@@ -4,17 +4,17 @@
 import json
 
 from subprocess import PIPE, Popen
-import requests
-from requests.exceptions import ReadTimeout
-
-from gfal2 import GError, Gfal2Context
-
-import rucio.rse.rsemanager as rsemgr
-from rucio.client.client import Client
-from rucio.common.exception import (DataIdentifierAlreadyExists, FileAlreadyExists, RucioException,
-                                    AccessDenied)
+# import requests
+# from requests.exceptions import ReadTimeout
+#
+# from gfal2 import GError, Gfal2Context
+#
+# import rucio.rse.rsemanager as rsemgr
+# from rucio.client.client import Client
+# from rucio.common.exception import (DataIdentifierAlreadyExists, FileAlreadyExists, RucioException,
+#                                     AccessDenied)
 DEBUG_FLAG = False
-DEFAULT_DASGOCLIENT = '/usr/bin/dasgoclient'
+DEFAULT_DASGOCLIENT = '/cvmfs/cms.cern.ch/common/dasgoclient'
 
 
 

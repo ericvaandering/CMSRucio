@@ -7,6 +7,7 @@ import pdb
 from rucio.client import Client
 
 from subprocess import PIPE, Popen
+
 # import requests
 # from requests.exceptions import ReadTimeout
 #
@@ -18,7 +19,6 @@ from subprocess import PIPE, Popen
 #                                     AccessDenied)
 DEBUG_FLAG = False
 DEFAULT_DASGOCLIENT = '/cvmfs/cms.cern.ch/common/dasgoclient'
-
 
 _ = pdb.__name__
 
@@ -35,8 +35,14 @@ def das_go_client(query, dasgoclient=DEFAULT_DASGOCLIENT, debug=DEBUG_FLAG):
         print('DEBUG:' + output)
     return json.loads(output)
 
-BLOCK = "/StreamExpress/Run2018A-PromptCalibProdSiStripGains-Express-v1/ALCAPROMPT#50d78a18-38ef-4cd4-8721-a617c441aa5b"
-RSE = 'T2_CH_CERN'
+
+INCOMPLETE_BLOCKS = [
+    ("/StreamExpress/Run2018A-PromptCalibProdSiStripGains-Express-v1/ALCAPROMPT#50d78a18-38ef-4cd4-8721-a617c441aa5b",
+     'T2_CH_CERN')
+]
+
+# BLOCK = "/StreamExpress/Run2018A-PromptCalibProdSiStripGains-Express-v1/ALCAPROMPT#50d78a18-38ef-4cd4-8721-a617c441aa5b"
+# RSE = 'T2_CH_CERN'
 
 
 def files_in_block(block=BLOCK):
@@ -46,14 +52,14 @@ def files_in_block(block=BLOCK):
         files.append(record['file'][0]['name'])
     return files
 
+
 def dbs_file_info(filename):
     result = das_go_client(query='file file=%s' % filename)
 
-    bytes = result[0]['file'][0]['size']
+    n_bytes = result[0]['file'][0]['size']
     adler32 = result[0]['file'][0]['adler32']
 
-    return bytes, adler32
-
+    return n_bytes, adler32
 
 
 def files_in_rucio_ds(block=BLOCK):
@@ -63,21 +69,20 @@ def files_in_rucio_ds(block=BLOCK):
     return files
 
 
-
 if __name__ == '__main__':
     """
     Sync site data manager roles to RSE attributes
     """
 
+    for block, rse in INCOMPLETE_BLOCKS:
+        print('Fixing %s at %s' % (block, rse))
+        true_files = files_in_block(block=block)
+        rucio_files = files_in_rucio_ds(block=block)
 
+        print('%s files in DBS vs %s files in Rucio' % (len(true_files), len(rucio_files)))
 
-    true_files = files_in_block(block=BLOCK)
-    rucio_files =files_in_rucio_ds(block=BLOCK)
+        missing_files = set(true_files) - set(rucio_files)
 
-    print('%s files in DBS vs %s files in Rucio' % (len(true_files), len(rucio_files)))
-
-    missing_files = set(true_files) - set(rucio_files)
-
-    for m_file in missing_files:
-        bytes, adler32 = dbs_file_info(filename=m_file)
-        print('Will add file %s with %s bytses and %s' % (m_file, bytes, adler32))
+        for m_file in missing_files:
+            n_bytes, adler32 = dbs_file_info(filename=m_file)
+            print('Will add file %s with %s bytses and %s' % (m_file, n_bytes, adler32))

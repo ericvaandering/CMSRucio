@@ -2,6 +2,7 @@
 
 
 import json
+import pdb
 
 from subprocess import PIPE, Popen
 # import requests
@@ -17,6 +18,7 @@ DEBUG_FLAG = False
 DEFAULT_DASGOCLIENT = '/cvmfs/cms.cern.ch/common/dasgoclient'
 
 
+_ = pdb.__name__
 
 def das_go_client(query, dasgoclient=DEFAULT_DASGOCLIENT, debug=DEBUG_FLAG):
     """
@@ -34,7 +36,7 @@ def files_in_block(block=BLOCK):
     result = das_go_client(query='file block=%s' % block)
     files = []
     for record in result:
-        files.append(record['file']['name'])
+        files.append(record['file'][0]['name'])
     return files
 
 

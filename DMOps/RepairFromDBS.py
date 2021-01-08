@@ -48,7 +48,7 @@ def files_in_rucio_ds(block=BLOCK):
     files = []
     for record in client.list_content(scope='cms', name=block):
         files.append(record['name'])
-
+    return files
 
 
 

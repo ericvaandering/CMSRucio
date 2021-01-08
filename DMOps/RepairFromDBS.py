@@ -45,7 +45,7 @@ INCOMPLETE_BLOCKS = [
 # RSE = 'T2_CH_CERN'
 
 
-def files_in_block(block=BLOCK):
+def files_in_block(block):
     result = das_go_client(query='file block=%s' % block)
     files = []
     for record in result:
@@ -62,7 +62,7 @@ def dbs_file_info(filename):
     return n_bytes, adler32
 
 
-def files_in_rucio_ds(block=BLOCK):
+def files_in_rucio_ds(block):
     files = []
     for record in client.list_content(scope='cms', name=block):
         files.append(record['name'])

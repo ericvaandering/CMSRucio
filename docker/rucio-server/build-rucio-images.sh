@@ -2,7 +2,7 @@
 
 set -e
 
-export CMS_VERSION=1.29.4.cms1
+export CMS_VERSION=1.29.4.go1
 export RUCIO_VERSION=1.29.4
 export CMS_TAG=cms_1_29_4
 

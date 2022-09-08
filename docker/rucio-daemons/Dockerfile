@@ -34,5 +34,9 @@ ADD cms-entrypoint.sh /
 # RUN python3 -m compileall /usr/local/lib/python3.6/site-packages/rucio/common
 
 #ADD https://raw.githubusercontent.com/ericvaandering/containers/add_preparer/daemons/rucio.cfg.j2 /tmp/rucio.cfg.j2
+RUN mkdir -p /patch
+
+# Radu's patch for preparer issues
+ADD https://patch-diff.githubusercontent.com/raw/rucio/rucio/pull/5854.patch 5854.patch
 
 ENTRYPOINT ["/cms-entrypoint.sh"]

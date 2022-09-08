@@ -37,6 +37,6 @@ ADD cms-entrypoint.sh /
 RUN mkdir -p /patch
 
 # Radu's patch for preparer issues
-ADD https://patch-diff.githubusercontent.com/raw/rucio/rucio/pull/5854.patch 5854.patch
+ADD https://patch-diff.githubusercontent.com/raw/rucio/rucio/pull/5854.patch /patch/5854.patch
 
 ENTRYPOINT ["/cms-entrypoint.sh"]

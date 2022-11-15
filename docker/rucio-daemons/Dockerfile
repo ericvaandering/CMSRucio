@@ -34,15 +34,11 @@ RUN mkdir -p /etc/grid-security && ln -s /cvmfs/grid.cern.ch/etc/grid-security/c
 
 ADD cms-entrypoint.sh /
 
-# Eric patch for cache-consumer (revisit if ever comes up again)
+# Cannot make patch directory unless there are patches
+RUN mkdir -p /patch
 
-# ADD https://raw.githubusercontent.com/ericvaandering/rucio/fix_cache_consumer/lib/rucio/daemons/cache/consumer.py /usr/local/lib/python3.6/site-packages/rucio/daemons/cache/consumer.py
-# RUN python3 -m compileall /usr/local/lib/python3.6/site-packages/rucio/daemons/cache
-# ADD https://raw.githubusercontent.com/ericvaandering/rucio/fix_cache_consumer/lib/rucio/core/volatile_replica.py /usr/local/lib/python3.6/site-packages/rucio/core/volatile_replica.py
-# RUN python3 -m compileall /usr/local/lib/python3.6/site-packages/rucio/core
-# ADD https://raw.githubusercontent.com/ericvaandering/rucio/fix_cache_consumer/lib/rucio/common/stomp_utils.py /usr/local/lib/python3.6/site-packages/rucio/common/stomp_utils.py
-# RUN python3 -m compileall /usr/local/lib/python3.6/site-packages/rucio/common
+# Igor's patch for container grouping issues
+ADD https://patch-diff.githubusercontent.com/raw/rucio/rucio/pull/5886.patch /patch/5886.patch
 
-#ADD https://raw.githubusercontent.com/ericvaandering/containers/add_preparer/daemons/rucio.cfg.j2 /tmp/rucio.cfg.j2
 
 ENTRYPOINT ["/cms-entrypoint.sh"]

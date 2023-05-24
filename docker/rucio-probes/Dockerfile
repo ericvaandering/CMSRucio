@@ -113,7 +113,6 @@ ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-
 ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-ruciorucio5804-1/cms/check_not_OK_rules_per_rse /probes/cms
 ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-ruciorucio5804-1/cms/check_number_of_missing_files_per_rse /probes/cms
 ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-ruciorucio5804-1/cms/check_report_free_space /probes/cms
-ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-ruciorucio5804-1/cms/check_report_used_space /probes/cms
 ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-ruciorucio5804-1/cms/check_rule_counts /probes/cms
 ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-ruciorucio5804-1/cms/check_rules_with_0_completion_volume /probes/cms
 ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-ruciorucio5804-1/cms/check_unlocked_replicas_per_rse /probes/cms
@@ -121,6 +120,9 @@ ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-
 
 # PR 111
 ADD https://raw.githubusercontent.com/ericvaandering/probes/check_rules_state_PROBE_2/cms/check_rules_states_by_account /probes/cms
+
+# PR 114
+ADD https://raw.githubusercontent.com/rucio/probes/master/cms/check_report_used_space /probes/cms
 
 # Need to bring PR72 forward
 

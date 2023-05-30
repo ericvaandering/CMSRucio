@@ -27,9 +27,6 @@ RUN chmod 755 /usr/local/lib/python3.6/site-packages/cmstfc.py
 
 # Temporary additions
 
-# PR 49
-#ADD https://raw.githubusercontent.com/ericvaandering/probes/cms_check_expired_locked/common/check_expired_locked_rules /probes/common
-
 # PR 56
 ADD https://raw.githubusercontent.com/FernandoGarzon/probes/check_rules_state_PROBE_2/cms/check_rules_states_by_account /probes/cms
 

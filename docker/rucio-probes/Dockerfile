@@ -30,14 +30,14 @@ ADD https://raw.githubusercontent.com/nsmith-/probes/hack_replicas/common/check_
 
 ADD https://raw.githubusercontent.com/dmielaikaite/probes/dmielaik_probes/common/check_used_space /probes/common
 
-# PR 71
-ADD https://raw.githubusercontent.com/ericvaandering/probes/expiring_rules_rse_127/cms/check_expiring_rules_per_rse /probes/cms
+# PR 71 revised
+ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/check_expiring_rules_per_rse /probes/cms
 
 # PR 72
 ADD https://raw.githubusercontent.com/ericvaandering/probes/update_check_expected_total_number_of_files_per_rse/cms/check_expected_total_number_of_files_per_rse /probes/cms
 
 # Where from?
-ADD https://raw.githubusercontent.com/ericvaandering/probes/cms_check_expired_rules/common/check_expired_rules /probes/common
+ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/common/check_expired_rules /probes/common
 ADD https://raw.githubusercontent.com/ericvaandering/probes/cms_check_expired_locked/common/check_expired_locked_rules /probes/common
 
 # PR 113
@@ -61,3 +61,8 @@ RUN chmod +x /probes/cms/check_*
 
 # Temporary while we are adding variables to the config. Push to rucio-containers
 ADD https://raw.githubusercontent.com/ericvaandering/containers/probes_prom/probes/rucio.cfg.j2 /tmp/
+
+# Add a pusher to probes
+ADD https://raw.githubusercontent.com/rucio/rucio/b1eb1d01e4e04aaea8fc5af13f7f4397fd9706d2/lib/rucio/core/monitor.py /usr/local/lib/python3.6/site-packages/rucio/core/
+ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/common/utils/common.py /probes/common/utils
+ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/check_ewv /probes/cms

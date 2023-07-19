@@ -49,9 +49,6 @@ ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-
 # PR 116
 ADD https://raw.githubusercontent.com/rucio/probes/master/cms/check_rule_counts /probes/cms
 
-RUN chmod +x /probes/common/check_*
-RUN chmod +x /probes/cms/check_*
-
 # Temporary while we are adding variables to the config. Push to rucio-containers
 ADD https://raw.githubusercontent.com/ericvaandering/containers/probes_prom/probes/rucio.cfg.j2 /tmp/
 
@@ -64,3 +61,6 @@ ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/
 ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/check_expiring_rules_per_rse /probes/cms
 ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/common/check_expired_rules /probes/common
 ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/check_report_used_space /probes/cms
+
+RUN chmod +x /probes/common/check_*
+RUN chmod +x /probes/cms/check_*

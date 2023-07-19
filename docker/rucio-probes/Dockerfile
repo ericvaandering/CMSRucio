@@ -63,4 +63,4 @@ ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/comm
 ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/check_expected_total_number_of_files_per_rse /probes/cms
 ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/check_expiring_rules_per_rse /probes/cms
 ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/common/check_expired_rules /probes/common
-ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/check_report_used_space /probes/common
+ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/check_report_used_space /probes/cms

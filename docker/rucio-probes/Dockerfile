@@ -58,13 +58,9 @@ ADD https://raw.githubusercontent.com/ericvaandering/containers/probes_prom/prob
 # Add a pusher to probes
 ADD https://raw.githubusercontent.com/rucio/rucio/b1eb1d01e4e04aaea8fc5af13f7f4397fd9706d2/lib/rucio/core/monitor.py /usr/local/lib/python3.6/site-packages/rucio/core/
 ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/common/utils/common.py /probes/common/utils
-ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/check_ewv /probes/cms
 
 #PR Pusher
-# Add others
 ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/check_expected_total_number_of_files_per_rse /probes/cms
-# PR 71 revised
 ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/check_expiring_rules_per_rse /probes/cms
 ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/common/check_expired_rules /probes/common
 ADD https://raw.githubusercontent.com/ericvaandering/probes/test_new_pusher/cms/check_report_used_space /probes/common
-

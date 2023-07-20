@@ -40,18 +40,18 @@ ADD https://raw.githubusercontent.com/ericvaandering/probes/update_check_expecte
 ADD https://raw.githubusercontent.com/ericvaandering/probes/cms_check_expired_rules/common/check_expired_rules /probes/common
 ADD https://raw.githubusercontent.com/ericvaandering/probes/cms_check_expired_locked/common/check_expired_locked_rules /probes/common
 
-# PR 113
-ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-rucio5804-2/common/check_expired_dids /probes/common/
-ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-rucio5804-2/common/check_new_dids /probes/common/
-ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-rucio5804-2/common/check_updated_dids /probes/common/
-ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-rucio5804-2/common/check_transfer_queues_status /probes/common/
-ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-rucio5804-2/common/check_stuck_rules /probes/common/
-ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-rucio5804-2/common/check_oracle /probes/common/
-ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-rucio5804-2/common/check_fts_backlog /probes/common/
-ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-rucio5804-2/common/check_messages_to_submit /probes/common/
-ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-rucio5804-2/common/check_requests_to_rses /probes/common/
-ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-rucio5804-2/common/check_unevaluated_dids /probes/common/
-ADD https://raw.githubusercontent.com/ericvaandering/probes/108-adapt-probes-to-rucio5804-2/common/check_unlocked_replicas /probes/common/
+# PR 113 merged 20 July
+ADD https://raw.githubusercontent.com/ericvaandering/probes/master/common/check_expired_dids /probes/common/
+ADD https://raw.githubusercontent.com/ericvaandering/probes/master/common/check_new_dids /probes/common/
+ADD https://raw.githubusercontent.com/ericvaandering/probes/master/common/check_updated_dids /probes/common/
+ADD https://raw.githubusercontent.com/ericvaandering/probes/master/common/check_transfer_queues_status /probes/common/
+ADD https://raw.githubusercontent.com/ericvaandering/probes/master/common/check_stuck_rules /probes/common/
+ADD https://raw.githubusercontent.com/ericvaandering/probes/master/common/check_oracle /probes/common/
+ADD https://raw.githubusercontent.com/ericvaandering/probes/master/common/check_fts_backlog /probes/common/
+ADD https://raw.githubusercontent.com/ericvaandering/probes/master/common/check_messages_to_submit /probes/common/
+ADD https://raw.githubusercontent.com/ericvaandering/probes/master/common/check_requests_to_rses /probes/common/
+ADD https://raw.githubusercontent.com/ericvaandering/probes/master/common/check_unevaluated_dids /probes/common/
+ADD https://raw.githubusercontent.com/ericvaandering/probes/master/common/check_unlocked_replicas /probes/common/
 
 # PR 116
 ADD https://raw.githubusercontent.com/rucio/probes/master/cms/check_rule_counts /probes/cms

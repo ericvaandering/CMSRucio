@@ -85,4 +85,5 @@ ADD https://patch-diff.githubusercontent.com/raw/rucio/rucio/pull/6097.patch /pa
 ADD https://raw.githubusercontent.com/dynamic-entropy/rucio/b55a1d62e39565ac0a220b64f42530db96cb468f/0001-Policies-Adding-plugin-hook-for-auto-approval-flow.patch /patch/6203.patch 
 
 ADD docker/rucio-webui/cms-entrypoint.sh /
+RUN chmod +x /cms-entrypoint.sh
 ENTRYPOINT ["/cms-entrypoint.sh"]

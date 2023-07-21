@@ -64,9 +64,8 @@ COPY src/policy/CMSRucioPolicy /opt/rucio/policy/CMSRucioPolicy
 #    && rm -rf /var/cache/yum
 #
 #ADD http://repository.egi.eu/sw/production/cas/1/current/repo-files/EGI-trustanchors.repo /etc/yum.repos.d/egi.repo
-RUN yum update  -y \
-    && yum clean all \
-    && rm -rf /var/cache/yum
+RUN dnf update  -y \
+    && dnf clean all
 
 RUN mkdir -p /etc/grid-security && ln -s /cvmfs/grid.cern.ch/etc/grid-security/certificates /etc/grid-security/
 

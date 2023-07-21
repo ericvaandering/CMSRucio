@@ -86,4 +86,5 @@ ADD https://raw.githubusercontent.com/dynamic-entropy/rucio/b55a1d62e39565ac0a22
 
 ADD docker/rucio-webui/cms-entrypoint.sh /
 RUN chmod +x /cms-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/cms-entrypoint.sh"]

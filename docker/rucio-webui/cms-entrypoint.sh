@@ -6,4 +6,4 @@ if [ ! -z "$POLICY_PKG_PATH" ]; then
 fi
 
 /docker-entrypoint.sh
-
+sleep infinity

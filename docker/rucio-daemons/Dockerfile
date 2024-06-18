@@ -31,5 +31,5 @@ ADD docker/rucio-daemons/cms-entrypoint.sh /
 
 # Patch for auto approve plugin rucio/pull/6215
 #ADD https://github.com/rucio/rucio/pull/6215.patch /patch/6215.patch
-
+ADD https://raw.githubusercontent.com/Chinyemba-ck/rucio-rebalancer-changes/cms_bb8/lib/rucio/daemons/bb8/bb8.py /usr/local/lib/python3.9/site-packages/rucio/daemons/bb8/bb8.py
 ENTRYPOINT ["/cms-entrypoint.sh"]

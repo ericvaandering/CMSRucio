@@ -82,7 +82,9 @@ for rule_id in opt.id:
     needs_approval = check_rule(rule)
     n_files = len(list(client.list_files('cms', rule['name'])))
     if n_files + total_files <= max_files:
+        total_files += n_files
         approval_list.append((rule['id'], rule['state'], rule['name']))
+        print(f"Found rules for {total_files} files")
     else:
         break
 

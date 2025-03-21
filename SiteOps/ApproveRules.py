@@ -77,8 +77,8 @@ def check_rule(r):
 
 
 total_files = 0
-for i in opt.id:
-    rule = client.get_replication_rule(id)
+for rule_id in opt.id:
+    rule = client.get_replication_rule(rule_id)
     needs_approval = check_rule(rule)
     n_files = len(list(client.list_files('cms', rule['name'])))
     if n_files + total_files <= max_files:

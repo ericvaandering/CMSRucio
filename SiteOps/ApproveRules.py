@@ -29,7 +29,7 @@ for i in opt.file:
     while l:
         if l.strip() != "":
             opt.id.append(l.strip().split()[0])
-    l = f.readline()
+        l = f.readline()
     f.close()
 
 # pprint.pprint(opt)

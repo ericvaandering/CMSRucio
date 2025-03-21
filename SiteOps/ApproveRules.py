@@ -100,19 +100,19 @@ if not opt.auto:
         for i in approval_list:
             print(i[0], i[3], i[1], i[2])
         print()
-    if from_stdin:
-        print("Warning: piped input requires '-a' for action. re-run the command with '-a'")
-        answer = 'N'
-    else:
-        answer = input("Approve these rules (Y/N)? ")
-        print()
-        if not answer in ('Y', 'y', 'YES', 'Yes', 'yes'):
-            print("No rule is approved")
-            sys.exit(0)
+        if from_stdin:
+            print("Warning: piped input requires '-a' for action. re-run the command with '-a'")
+            answer = 'N'
         else:
+            answer = input("Approve these rules (Y/N)? ")
             print()
-            print("Nothing to approve")
-    sys.exit(0)
+            if not answer in ('Y', 'y', 'YES', 'Yes', 'yes'):
+                print("No rule is approved")
+                sys.exit(0)
+    else:
+        print()
+        print("Nothing to approve")
+        sys.exit(0)
 
 count = 0
 for i in approval_list:

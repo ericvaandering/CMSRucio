@@ -67,6 +67,7 @@ def check_rule(r):
         else:
             if not opt.silent:
                 print("Rule %s %s %s does not need approval" % (r['id'], r['state'], r['name']))
+            return False
     except RuleNotFound:
         if not opt.silent:
             # print("No rule with the id %s found"%(i))

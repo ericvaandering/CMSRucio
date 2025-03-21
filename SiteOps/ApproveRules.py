@@ -46,7 +46,7 @@ if len(opt.id) < 1:
     while l:
         if l.strip() != "":
             opt.id.append(l.strip().split()[0])
-    l = f.readline()
+        l = f.readline()
     from_stdin = True
 
 # silent takes higher priority than verbose
@@ -81,6 +81,7 @@ for rule_id in opt.id:
     rule = client.get_replication_rule(rule_id)
     needs_approval = check_rule(rule)
     n_files = len(list(client.list_files('cms', rule['name'])))
+    print
     if n_files + total_files <= max_files:
         total_files += n_files
         approval_list.append((rule['id'], rule['state'], rule['name']))

@@ -81,14 +81,15 @@ total_files = 0
 for rule_id in opt.id:
     rule = client.get_replication_rule(rule_id)
     needs_approval = check_rule(rule)
-    n_files = len(list(client.list_files('cms', rule['name'])))
-    print
-    if n_files + total_files <= max_files:
-        total_files += n_files
-        approval_list.append((rule['id'], rule['state'], rule['name'], n_files))
-        print(f"Found rules for {total_files} files")
-    else:
-        break
+    if needs_approval:
+        n_files = len(list(client.list_files('cms', rule['name'])))
+        # print
+        if n_files + total_fi   les <= max_files:
+            total_files += n_files
+            approval_list.append((rule['id'], rule['state'], rule['name'], n_files))
+            print(f"Found rules for {total_files} files")
+        else:
+            break
 
 # approve rules
 # rl = rc.list_files('cms','/HIPhysicsRawPrime29/HIRun2024B-PromptReco-v2/AOD')

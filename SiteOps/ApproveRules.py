@@ -84,7 +84,7 @@ for rule_id in opt.id:
     print
     if n_files + total_files <= max_files:
         total_files += n_files
-        approval_list.append((rule['id'], rule['state'], rule['name']))
+        approval_list.append((rule['id'], rule['state'], rule['name'], n_files))
         print(f"Found rules for {total_files} files")
     else:
         break
@@ -98,7 +98,7 @@ if not opt.auto:
         print()
         print("Rules to approve:")
         for i in approval_list:
-            print(i[0], i[1], i[2])
+            print(i[0], i[3], i[1], i[2])
         print()
     if from_stdin:
         print("Warning: piped input requires '-a' for action. re-run the command with '-a'")
